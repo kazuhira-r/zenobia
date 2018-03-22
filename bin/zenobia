@@ -1,0 +1,45 @@
+#!/bin/bash
+
+set -e
+
+export ZENOBIA_HOME=${HOME}/.zenobia
+export ZENOBIA_BIN_DIR=$(cd $(dirname $0)  && pwd)
+#export ZENOBIA_BIN_DIR=${ZENOBIA_HOME}/bin
+
+export ZENOBIA_LIBEXEC_DIR=$(cd ${ZENOBIA_BIN_DIR} && cd ../libexec && pwd)
+
+export PAYARA_MICRO_DIR=${ZENOBIA_HOME}/payara-micro
+export WILDFLY_SWARM_DIR=${ZENOBIA_HOME}/wildfly-swarm
+
+TYPE=$1
+
+if [ "${TYPE}" != "payara-micro"  -a "${TYPE}" != "wildfly-swarm" ]; then
+    echo "invalid type ${TYPE}"
+    exit 1
+fi
+
+WILDFLY_SWARM_PROFILE=(
+    microprofile
+    web
+    full
+    keycloak
+    swagger-ui
+    management-console
+)
+
+if [ ! -e ${PAYARA_MICRO_DIR} ];then
+    mkdir -p ${PAYARA_MICRO_DIR}
+fi
+
+for PROFILE in ${WILDFLY_SWARM_PROFILE[@]}
+do
+    if [ ! -e ${WILDFLY_SWARM_DIR}/${PROFILE} ]; then
+        mkdir -p ${WILDFLY_SWARM_DIR}/${PROFILE}
+    fi
+done
+
+if [ "${TYPE}" == "payara-micro" ]; then
+    ${ZENOBIA_LIBEXEC_DIR}/payara-micro.sh "$@"
+elif [ "${TYPE}" == "wildfly-swarm" ]; then
+    ${ZENOBIA_LIBEXEC_DIR}/wildfly-swarm.sh "$@"
+fi
