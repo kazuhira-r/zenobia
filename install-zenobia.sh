@@ -31,7 +31,7 @@ if [ -e "${ZENOBIA_LIBEXEC_DIR}/*" ]; then
     rm ${ZENOBIA_LIBEXEC_DIR}/*
 fi
 
-for LIBEXEC_SCRIPT in ${LIBEXEC_SCRIPT[@]}
+for LIBEXEC_SCRIPT in ${LIBEXEC_SCRIPTS[@]}
 do
     curl https://raw.githubusercontent.com/kazuhira-r/zenobia/master/libexec/${LIBEXEC_SCRIPT} -o ${ZENOBIA_LIBEXEC_DIR}/${LIBEXEC_SCRIPT}
     chmod a+x ${ZENOBIA_LIBEXEC_DIR}/${LIBEXEC_SCRIPT}
