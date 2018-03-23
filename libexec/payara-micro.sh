@@ -43,5 +43,16 @@ elif [ "${COMMAND}" == "uninstall" ]; then
     if [ -e ${PAYARA_MICRO_DIR}/"payara-micro-${VERSION}.jar" ]; then
         rm ${PAYARA_MICRO_DIR}/"payara-micro-${VERSION}.jar"
         logging INRO "uninstall payara-micro-${VERSION}.jar"
+
+        CURRENT_VERSION=`ls -l ${ZENOBIA_BIN_DIR}/payara-micro.jar | perl -wp -e 's!.+payara-micro-([^-]+).jar!$1!'`
+
+        if [ "${CURRENT_VERSION}" == "${VERSION}" ]; then
+            rm ${ZENOBIA_BIN_DIR}/"payara-micro.jar"
+            rm ${ZENOBIA_BIN_DIR}/"payara-micro"
+            logging INRO "remove payara-micro.jar"
+            logging INRO "remove payara-micro"
+        fi
+    else
+        logging INRO "already uninstalled payara-micro-${VERSION}.jar"
     fi
 fi

@@ -68,5 +68,16 @@ elif [ "${COMMAND}" == "uninstall" ]; then
     if [ -e ${WILDFLY_SWARM_DIR}/${TYPE}/"${TYPE}-${VERSION}-${CLASSFIER}.jar" ]; then
         rm ${WILDFLY_SWARM_DIR}/${TYPE}/"${TYPE}-${VERSION}-${CLASSFIER}.jar"
         logging INFO "uninstall ${TYPE}-${VERSION}-${CLASSFIER}.jar"
+
+        CURRENT_VERSION=`ls -l ${ZENOBIA_BIN_DIR}/${TYPE}-${CLASSFIER}.jar | perl -wp -e 's!.+-([^-]+)-(hollow)?swarm.jar!$1!'`
+
+        if [ "${CURRENT_VERSION}" == "${VERSION}" ]; then
+            rm ${ZENOBIA_BIN_DIR}/${TYPE}/"${TYPE}-${CLASSFIER}.jar"
+            rm ${ZENOBIA_BIN_DIR}/${TYPE}/"${TYPE}-${CLASSFIER}"
+            logging INFO "remove ${TYPE}-${CLASSFIER}.jar"
+            logging INFO "remove ${TYPE}-${CLASSFIER}"
+        fi
+    else
+        logging INFO "already uninstalled ${TYPE}-${VERSION}-${CLASSFIER}.jar"
     fi
 fi
