@@ -12,3 +12,10 @@ The last step involves editing and removing the initialisation snippet from your
 [[ -s "/home/kazuhira/.zenobia/bin/init-zenobia.sh" ]] && source "/home/kazuhira/.zenobia/bin/init-zenobia.sh"
 ```
 Once removed, you have successfully uninstalled Zenobia from your machine.
+
+## Development Mode
+To operate Zenobia as a development mode, set the environment variable `ZENOBIA_DEVELOPMENT=1`.
+```shellscript
+$ ZENOBIA_DEVELOPMENT=1 bin/zenobia install wildfly-swarm microprofile
+```
+
