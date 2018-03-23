@@ -2,6 +2,25 @@
 
 source ${ZENOBIA_LIBEXEC_DIR}/functions.sh
 
+show_swarm_version() {
+    if [ -e "${ZENOBIA_BIN_DIR}/${TYPE}-${CLASSFIER}.jar" ]; then
+        CURRENT_VERSION=`ls -l ${ZENOBIA_BIN_DIR}/${TYPE}-${CLASSFIER}.jar | perl -wp -e 's!.+-([^-]+)-(hollow)?swarm.jar!$1!'`
+
+        echo "  type: ${TYPE}"
+
+        for WILDFLY_SWARM_JAR in `ls -1 ${WILDFLY_SWARM_DIR}/${TYPE} | sort -r`
+        do
+            VERSION=`ls -l ${ZENOBIA_BIN_DIR}/${TYPE}-${CLASSFIER}.jar | perl -wp -e 's!.+-([^-]+)-(hollow)?swarm.jar!$1!'`
+
+            if [ "${CURRENT_VERSION}" == "${VERSION}" ]; then
+                echo "    ${CURRENT_VERSION} [current]"
+            else
+                echo "    ${VERSION}"
+            fi
+        done
+    fi
+}
+
 COMMAND=$1
 TYPE=$3
 VERSION=$4
@@ -26,8 +45,10 @@ do
 done
 
 if [ ${IS_VALID_TYPE} == 0 ]; then
-    logging ERROR "invalid WildFly Swarm type ${TYPE}"
-    exit 1
+    if [ "${COMMAND}" != "list" -a ! -z "${TYPE}" ]; then
+        logging ERROR "invalid WildFly Swarm type ${TYPE}"
+        exit 1
+    fi
 fi
 
 if [ "${COMMAND}" == "install" ]; then
@@ -52,7 +73,25 @@ elif [ "${COMMAND}" == "set" ]; then
     ${ZENOBIA_LIBEXEC_DIR}/executable.sh "${TYPE}-${CLASSFIER}.jar" "${TYPE}-${CLASSFIER}"
 
 elif [ "${COMMAND}" == "list" ]; then
-    ls -l ${WILDFLY_SWARM_DIR}/${TYPE}
+    if [ -z "${TYPE}" ]; then
+        logging INFO "local installed wildfly-swarm uberjars"
+        
+        for TYPE in `ls ${WILDFLY_SWARM_DIR}`
+        do
+            for VALID_TYPE in "${VALID_TYPES[@]}"
+            do
+                VT=(${VALID_TYPE[@]})
+                if [ "${TYPE}" == "${VT[0]}" ]; then
+                    CLASSFIER=${VT[1]}
+                    IS_VALID_TYPE=1
+                fi
+            done
+
+            show_swarm_version
+        done
+    else
+        show_swarm_version
+    fi
 
 elif [ "${COMMAND}" == "current" ]; then
     VERSION=`ls -l ${ZENOBIA_BIN_DIR}/${TYPE}-${CLASSFIER}.jar | perl -wp -e 's!.+-([^-]+)-(hollow)?swarm.jar!$1!'`

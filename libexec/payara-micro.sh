@@ -27,7 +27,20 @@ elif [ "${COMMAND}" == "set" ]; then
     ${ZENOBIA_LIBEXEC_DIR}/executable.sh payara-micro.jar payara-micro
 
 elif [ "${COMMAND}" == "list" ]; then
-    ls -l ${PAYARA_MICRO_DIR}
+    logging INFO "local installed payara-micro jars"
+
+    CURRENT_VERSION=`ls -l ${ZENOBIA_BIN_DIR}/payara-micro.jar | perl -wp -e 's!.+payara-micro-([^-]+).jar!$1!'`
+    
+    for PAYARA_MICRO_JAR in `ls -1 ${PAYARA_MICRO_DIR} | sort -r`
+    do
+        VERSION=`echo ${PAYARA_MICRO_JAR} | perl -wp -e 's!.+-([^-]+)\.jar!$1!'`
+
+        if [ "${CURRENT_VERSION}" == "${VERSION}" ]; then
+            echo "  ${CURRENT_VERSION} [current]"
+        else
+            echo "  ${VERSION}"
+        fi
+    done
 
 elif [ "${COMMAND}" == "current" ];then
     VERSION=`ls -l ${ZENOBIA_BIN_DIR}/payara-micro.jar | perl -wp -e 's!.+payara-micro-([^-]+).jar!$1!'`
