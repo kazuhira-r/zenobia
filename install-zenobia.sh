@@ -23,7 +23,7 @@ BIN_SCRIPTS=(
 
 for BIN_SCRIPT in ${BIN_SCRIPTS[@]}
 do
-    curl https://raw.githubusercontent.com/kazuhira-r/zenobia/master/bin/zenobia -o ${ZENOBIA_BIN_DIR}/${BIN_SCRIPT}
+    curl https://raw.githubusercontent.com/kazuhira-r/zenobia/master/bin/${BIN_SCRIPT} -o ${ZENOBIA_BIN_DIR}/${BIN_SCRIPT}
     chmod a+x ${ZENOBIA_BIN_DIR}/${BIN_SCRIPT}
 done
 
