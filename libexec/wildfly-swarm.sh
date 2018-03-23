@@ -12,7 +12,7 @@ show_swarm_version() {
 
         for WILDFLY_SWARM_JAR in `ls -1 ${WILDFLY_SWARM_DIR}/${TYPE} | sort -r`
         do
-            VERSION=`ls -l ${ZENOBIA_BIN_DIR}/${TYPE}-${CLASSFIER}.jar | perl -wp -e 's!.+-([^-]+)-(hollow)?swarm.jar!$1!'`
+            VERSION=`echo ${WILDFLY_SWARM_JAR} | perl -wp -e 's!.+-([^-]+)-(hollow)?swarm.jar!$1!'`
 
             if [ "${CURRENT_VERSION}" == "${VERSION}" ]; then
                 echo "    ${CURRENT_VERSION} [current]"
