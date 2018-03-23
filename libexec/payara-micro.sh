@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 source ${ZENOBIA_LIBEXEC_DIR}/functions.sh
 
 COMMAND=$1
