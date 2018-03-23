@@ -21,6 +21,7 @@ VALID_COMMANDS=(
     install
     uninstall
     set
+    current
     list
 )
 

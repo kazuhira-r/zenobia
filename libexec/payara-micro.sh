@@ -29,6 +29,11 @@ elif [ "${COMMAND}" == "set" ]; then
 elif [ "${COMMAND}" == "list" ]; then
     ls -l ${PAYARA_MICRO_DIR}
 
+elif [ "${COMMAND}" == "current" ];then
+    VERSION=`ls -l ${ZENOBIA_BIN_DIR}/payara-micro.jar | perl -wp -e 's!.+payara-micro-([^-]+).jar!$1!'`
+
+    logging INFO "current version ${VERSION}"
+
 elif [ "${COMMAND}" == "uninstall" ]; then
     if [ -z "${VERSION}" ]; then
         logging ERROR "require version"

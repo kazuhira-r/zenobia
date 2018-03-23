@@ -19,7 +19,8 @@ IS_VALID_TYPE=0
 for VALID_TYPE in "${VALID_TYPES[@]}"
 do
    VT=(${VALID_TYPE[@]})
-    if [ "${TYPE}" == "${VT[0]}" ]; then
+   if [ "${TYPE}" == "${VT[0]}" ]; then
+       CLASSFIER=${VT[1]}
         IS_VALID_TYPE=1
     fi
 done
@@ -34,11 +35,11 @@ if [ "${COMMAND}" == "install" ]; then
         VERSION=`curl -s "http://search.maven.org/solrsearch/select?q=g:org.wildfly.swarm.servers+AND+a:${TYPE}" | perl -wn -e 'print $1 if /"latestVersion":"([^"]+)"/'`
     fi
 
-    ${ZENOBIA_LIBEXEC_DIR}/download.sh ${WILDFLY_SWARM_DIR}/${TYPE} org/wildfly/swarm/servers ${TYPE} ${VERSION} hollowswarm
+    ${ZENOBIA_LIBEXEC_DIR}/download.sh ${WILDFLY_SWARM_DIR}/${TYPE} org/wildfly/swarm/servers ${TYPE} ${VERSION} ${CLASSFIER}
 
-    ${ZENOBIA_LIBEXEC_DIR}/link.sh ${WILDFLY_SWARM_DIR}/${TYPE} "${TYPE}-${VERSION}-hollowswarm.jar" "${TYPE}-hollowswarm.jar"
+    ${ZENOBIA_LIBEXEC_DIR}/link.sh ${WILDFLY_SWARM_DIR}/${TYPE} "${TYPE}-${VERSION}-${CLASSFIER}.jar" "${TYPE}-${CLASSFIER}.jar"
 
-    ${ZENOBIA_LIBEXEC_DIR}/executable.sh "${TYPE}-hollowswarm.jar" "${TYPE}-hollowswarm"
+    ${ZENOBIA_LIBEXEC_DIR}/executable.sh "${TYPE}-${CLASSFIER}.jar" "${TYPE}-${CLASSFIER}"
 
 elif [ "${COMMAND}" == "set" ]; then
     if [ -z "${VERSION}" ]; then
@@ -46,12 +47,17 @@ elif [ "${COMMAND}" == "set" ]; then
         exit 1
     fi
     
-    ${ZENOBIA_LIBEXEC_DIR}/link.sh ${WILDFLY_SWARM_DIR}/${TYPE} "${TYPE}-${VERSION}-hollowswarm.jar" "${TYPE}-hollowswarm.jar"
+    ${ZENOBIA_LIBEXEC_DIR}/link.sh ${WILDFLY_SWARM_DIR}/${TYPE} "${TYPE}-${VERSION}-${CLASSFIER}.jar" "${TYPE}-${CLASSFIER}.jar"
 
-    ${ZENOBIA_LIBEXEC_DIR}/executable.sh "${TYPE}-hollowswarm.jar" "${TYPE}-hollowswarm"
+    ${ZENOBIA_LIBEXEC_DIR}/executable.sh "${TYPE}-${CLASSFIER}.jar" "${TYPE}-${CLASSFIER}"
 
 elif [ "${COMMAND}" == "list" ]; then
     ls -l ${WILDFLY_SWARM_DIR}/${TYPE}
+
+elif [ "${COMMAND}" == "current" ]; then
+    VERSION=`ls -l ${ZENOBIA_BIN_DIR}/${TYPE}-${CLASSFIER}.jar | perl -wp -e 's!.+-([^-]+)-(hollow)?swarm.jar!$1!'`
+
+    logging INFO "current ${TYPE} version ${VERSION}"
 
 elif [ "${COMMAND}" == "uninstall" ]; then
     if [ -z "${VERSION}" ]; then
@@ -59,8 +65,8 @@ elif [ "${COMMAND}" == "uninstall" ]; then
         exit 1
     fi
 
-    if [ -e ${WILDFLY_SWARM_DIR}/${TYPE}/"${TYPE}-${VERSION}-hollowswarm.jar" ]; then
-        rm ${WILDFLY_SWARM_DIR}/${TYPE}/"${TYPE}-${VERSION}-hollowswarm.jar"
-        logging INFO "uninstall ${TYPE}-${VERSION}-hollowswarm.jar"
+    if [ -e ${WILDFLY_SWARM_DIR}/${TYPE}/"${TYPE}-${VERSION}-${CLASSFIER}.jar" ]; then
+        rm ${WILDFLY_SWARM_DIR}/${TYPE}/"${TYPE}-${VERSION}-${CLASSFIER}.jar"
+        logging INFO "uninstall ${TYPE}-${VERSION}-${CLASSFIER}.jar"
     fi
 fi
