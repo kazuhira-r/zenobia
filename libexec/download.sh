@@ -22,7 +22,6 @@ if [ ! -z "${CLASSFIER}" ];then
     curl ${DOWNLOAD_URL} -o ${ARTIFACT_NAME}-${VERSION}-${CLASSFIER}.jar
 
     grep 'Not Found' ${ARTIFACT_NAME}-${VERSION}-${CLASSFIER}.jar 2>&1 > /dev/null
-    echo $?
     if [ $? -eq 0 ]; then
         logging ERROR "invalid version ${VERSION}"
         rm ${ARTIFACT_NAME}-${VERSION}-${CLASSFIER}.jar
@@ -40,7 +39,6 @@ else
     curl ${DOWNLOAD_URL} -o ${ARTIFACT_NAME}-${VERSION}.jar
 
     grep 'Not Found' ${ARTIFACT_NAME}-${VERSION}.jar 2>&1 > /dev/null
-    echo $?
     if [ $? -eq 0 ]; then
         logging ERROR "invalid version ${VERSION}"
         rm ${ARTIFACT_NAME}-${VERSION}.jar
