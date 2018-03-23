@@ -30,6 +30,7 @@ done
 LIBEXEC_SCRIPTS=(
     download.sh
     executable.sh
+    functions.sh
     link.sh
     payara-micro.sh
     wildfly-swarm.sh

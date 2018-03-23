@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source ${ZENOBIA_LIBEXEC_DIR}/functions.sh
+
 TARGET_ARTIFACT_NAME=$1
 EXECUTABLE_FILE_NAME=$2
 

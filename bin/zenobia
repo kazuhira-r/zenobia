@@ -7,8 +7,10 @@ export ZENOBIA_BIN_DIR=$(cd $(dirname $0)  && pwd)
 
 export ZENOBIA_LIBEXEC_DIR=$(cd ${ZENOBIA_BIN_DIR} && cd ../libexec && pwd)
 
+source ${ZENOBIA_LIBEXEC_DIR}/functions.sh
+
 if [ "${ZENOBIA_DEVELOPMENT}" == "1" ]; then
-    echo "enable development mode"
+    logging INFO "enable development mode"
     export ZENOBIA_BIN_DIR=${ZENOBIA_HOME}/bin
 fi
 
@@ -34,14 +36,16 @@ do
 done
 
 if [ ${IS_VALID_COMMAND} -eq 0 ]; then
-    echo "invalid command ${COMMAND}"
+    logging ERROR "invalid command ${COMMAND}"
     exit 1
 fi
 
 if [ "${SERVER_TYPE}" != "wildfly-swarm" -a "${SERVER_TYPE}" != "payara-micro" ]; then
-    echo "invalid type ${SERVER_TYPE}"
+    logging ERROR "invalid type ${SERVER_TYPE}"
     exit 1
 fi
+
+export SERVER_TYPE
 
 WILDFLY_SWARM_TYPE=(
     microprofile
