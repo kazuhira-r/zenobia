@@ -9,7 +9,7 @@ $ curl https://raw.githubusercontent.com/kazuhira-r/zenobia/master/install-zenob
 
 The last step involves editing and removing the initialisation snippet from your `.bashrc`, `.bash_profile` and/or `.profile` files.  The snippet of code to be removed looks something like this:
 ```shellscript
-[[ -s "/home/kazuhira/.zenobia/bin/init-zenobia.sh" ]] && source "/home/kazuhira/.zenobia/bin/init-zenobia.sh"
+[[ -s "${HOME}/.zenobia/bin/init-zenobia.sh" ]] && source "${HOME}/.zenobia/bin/init-zenobia.sh"
 ```
 Once removed, you have successfully uninstalled Zenobia from your machine.
 
