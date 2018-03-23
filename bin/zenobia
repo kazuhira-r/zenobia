@@ -4,21 +4,46 @@ set -e
 
 export ZENOBIA_HOME=${HOME}/.zenobia
 export ZENOBIA_BIN_DIR=$(cd $(dirname $0)  && pwd)
-#export ZENOBIA_BIN_DIR=${ZENOBIA_HOME}/bin
 
 export ZENOBIA_LIBEXEC_DIR=$(cd ${ZENOBIA_BIN_DIR} && cd ../libexec && pwd)
+
+if [ "${ZENOBIA_DEVELOPMENT}" == "1" ]; then
+    echo "enable development mode"
+    export ZENOBIA_BIN_DIR=${ZENOBIA_HOME}/bin
+fi
 
 export PAYARA_MICRO_DIR=${ZENOBIA_HOME}/payara-micro
 export WILDFLY_SWARM_DIR=${ZENOBIA_HOME}/wildfly-swarm
 
-TYPE=$1
+VALID_COMMANDS=(
+    install
+    uninstall
+    set
+    list
+)
 
-if [ "${TYPE}" != "payara-micro"  -a "${TYPE}" != "wildfly-swarm" ]; then
-    echo "invalid type ${TYPE}"
+COMMAND=$1
+SERVER_TYPE=$2
+
+IS_VALID_COMMAND=0
+for VALID_COMMAND in ${VALID_COMMANDS[@]}
+do
+    if [ "${COMMAND}" == ${VALID_COMMAND} ]; then
+        IS_VALID_COMMAND=1
+    fi
+done
+
+if [ ${IS_VALID_COMMAND} -eq 0 ]; then
+    echo "invalid command ${COMMAND}"
     exit 1
 fi
 
-WILDFLY_SWARM_PROFILE=(
+if [ "${SERVER_TYPE}" != "wildfly-swarm" -a "${SERVER_TYPE}" != "payara-micro" ]; then
+    echo "invalid type ${SERVER_TYPE}"
+    exit 1
+fi
+
+WILDFLY_SWARM_TYPE=(
     microprofile
     web
     full
@@ -27,19 +52,19 @@ WILDFLY_SWARM_PROFILE=(
     management-console
 )
 
+for TYPE in ${WILDFLY_SWARM_TYPE[@]}
+do
+    if [ ! -e ${WILDFLY_SWARM_DIR}/${TYPE} ]; then
+        mkdir -p ${WILDFLY_SWARM_DIR}/${TYPE}
+    fi
+done
+
 if [ ! -e ${PAYARA_MICRO_DIR} ];then
     mkdir -p ${PAYARA_MICRO_DIR}
 fi
 
-for PROFILE in ${WILDFLY_SWARM_PROFILE[@]}
-do
-    if [ ! -e ${WILDFLY_SWARM_DIR}/${PROFILE} ]; then
-        mkdir -p ${WILDFLY_SWARM_DIR}/${PROFILE}
-    fi
-done
-
-if [ "${TYPE}" == "payara-micro" ]; then
-    ${ZENOBIA_LIBEXEC_DIR}/payara-micro.sh "$@"
-elif [ "${TYPE}" == "wildfly-swarm" ]; then
+if [ "${SERVER_TYPE}" == "wildfly-swarm" ]; then
     ${ZENOBIA_LIBEXEC_DIR}/wildfly-swarm.sh "$@"
+elif [ "${SERVER_TYPE}" == "payara-micro" ]; then
+    ${ZENOBIA_LIBEXEC_DIR}/payara-micro.sh "$@"
 fi

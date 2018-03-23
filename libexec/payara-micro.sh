@@ -1,6 +1,6 @@
 #!/bin/bash
 
-COMMAND=$2
+COMMAND=$1
 VERSION=$3
 
 if [ "${COMMAND}" == "install" ]; then

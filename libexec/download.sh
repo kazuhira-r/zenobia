@@ -21,6 +21,5 @@ else
     fi
     
     DOWNLOAD_URL=https://search.maven.org/remotecontent?filepath=${GROUP_DIR}/${ARTIFACT_NAME}/${VERSION}/${ARTIFACT_NAME}-${VERSION}.jar
-    echo ${DOWNLOAD_URL}
     curl ${DOWNLOAD_URL} -o ${ARTIFACT_NAME}-${VERSION}.jar
 fi
