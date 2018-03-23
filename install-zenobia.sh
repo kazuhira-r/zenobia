@@ -16,8 +16,16 @@ if [ ! -e ${ZENOBIA_LIBEXEC_DIR} ]; then
     mkdir ${ZENOBIA_LIBEXEC_DIR}
 fi
 
-curl https://raw.githubusercontent.com/kazuhira-r/zenobia/master/bin/zenobia -o ${ZENOBIA_BIN_DIR}/zenobia
-chmod a+x ${ZENOBIA_BIN_DIR}/zenobia
+BIN_SCRIPTS=(
+    zenobia
+    init-zenobia.sh
+)
+
+for BIN_SCRIPT in ${BIN_SCRIPTS[@]}
+do
+    curl https://raw.githubusercontent.com/kazuhira-r/zenobia/master/bin/zenobia -o ${ZENOBIA_BIN_DIR}/${BIN_SCRIPT}
+    chmod a+x ${ZENOBIA_BIN_DIR}/${BIN_SCRIPT}
+done
 
 LIBEXEC_SCRIPTS=(
     download.sh
