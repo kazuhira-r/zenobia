@@ -20,15 +20,27 @@ fi
 
 cd ${ZENOBIA_SRC_BUILD_DIR}
 
-curl -s ${GITHUB_RAW_USERCONTENT_BASE_URL}/executable-container/mvnw.tar.gz  -o mvnw.tar.gz
-tar -xf mvnw.tar.gz
+which mvn 2>&1 > /dev/null
+
+if [ $? -ne 0 ]; then
+    logging INFO "use Maven Wrapper..."
+
+    curl -s ${GITHUB_RAW_USERCONTENT_BASE_URL}/executable-container/mvnw.tar.gz  -o mvnw.tar.gz
+    tar -xf mvnw.tar.gz
+
+    MVN=./mvnw
+else
+    logging INFO "use local installed Maven..."
+
+    MVN=mvn
+fi
 
 curl -s ${GITHUB_RAW_USERCONTENT_BASE_URL}/executable-container/${ARTIFACT_NAME}.tar.gz -o ${ARTIFACT_NAME}.tar.gz
 tar -xf ${ARTIFACT_NAME}.tar.gz
 
 perl -wpi -e "s!<server.name>.+</server.name>!<server.name>${SERVER_NAME}</server.name>!" pom.xml
 perl -wpi -e "s!<${ARTIFACT_NAME}.version>.+</${ARTIFACT_NAME}.version>!<${ARTIFACT_NAME}.version>${VERSION}</${ARTIFACT_NAME}.version>!" pom.xml
-./mvnw package
+${MVN} package
 
 cp target/${SERVER_NAME}-${VERSION}.jar ${OUTPUT_DIR}/${SERVER_NAME}-${VERSION}.jar
 
