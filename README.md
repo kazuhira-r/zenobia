@@ -12,6 +12,10 @@ Zenobia is a tool for local installation management of WildFly Swarm Hollow Uber
 ### Support Platform
 *nix (e.g. Linux)
 
+### Support Application Server
+- WildFly Swarm
+- Payara Micro
+
 ### Requirement
 - bash
 - Perl
