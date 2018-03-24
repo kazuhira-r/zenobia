@@ -44,6 +44,20 @@ elif [ "${COMMAND}" == "list" ]; then
         fi
     done
 
+elif [ "${COMMAND}" == "list-remote" ];then
+    logging INFO "Maven Central registered payara-micro jars"
+
+    CURRENT_VERSION=`ls -l ${ZENOBIA_BIN_DIR}/payara-micro.jar | perl -wp -e 's!.+payara-micro-([^-]+).jar!$1!'`
+    
+    for VERSION in `curl -s 'http://search.maven.org/solrsearch/select?q=g:fish.payara.extras+AND+a:payara-micro&core=gav' | perl -wp -e 's!,!,\n!g' | perl -wnl -e 'print "$1 " if /"v":"([^"]+)"/' | sort | grep -vEi 'alpha|beta'`
+    do
+        if [ "${CURRENT_VERSION}" == "${VERSION}" ]; then
+            echo "  ${CURRENT_VERSION} [current]"
+        else
+            echo "  ${VERSION}"
+        fi
+    done
+
 elif [ "${COMMAND}" == "current" ];then
     VERSION=`ls -l ${ZENOBIA_BIN_DIR}/payara-micro.jar | perl -wp -e 's!.+payara-micro-([^-]+).jar!$1!'`
 

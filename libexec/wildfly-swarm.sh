@@ -5,8 +5,8 @@ set -e
 source ${ZENOBIA_LIBEXEC_DIR}/functions.sh
 
 show_swarm_version() {
-    if [ -e "${ZENOBIA_BIN_DIR}/${TYPE}-${CLASSFIER}.jar" ]; then
-        CURRENT_VERSION=`ls -l ${ZENOBIA_BIN_DIR}/${TYPE}-${CLASSFIER}.jar | perl -wp -e 's!.+-([^-]+)-(hollow)?swarm.jar!$1!'`
+    if [ -e "${ZENOBIA_BIN_DIR}/${TYPE}-${CLASSIFIER}.jar" ]; then
+        CURRENT_VERSION=`ls -l ${ZENOBIA_BIN_DIR}/${TYPE}-${CLASSIFIER}.jar | perl -wp -e 's!.+-([^-]+)-(hollow)?swarm.jar!$1!'`
 
         echo "  type: ${TYPE}"
 
@@ -41,7 +41,7 @@ for VALID_TYPE in "${VALID_TYPES[@]}"
 do
    VT=(${VALID_TYPE[@]})
    if [ "${TYPE}" == "${VT[0]}" ]; then
-       CLASSFIER=${VT[1]}
+       CLASSIFIER=${VT[1]}
         IS_VALID_TYPE=1
     fi
 done
@@ -58,11 +58,11 @@ if [ "${COMMAND}" == "install" ]; then
         VERSION=`curl -s "http://search.maven.org/solrsearch/select?q=g:org.wildfly.swarm.servers+AND+a:${TYPE}" | perl -wn -e 'print $1 if /"latestVersion":"([^"]+)"/'`
     fi
 
-    ${ZENOBIA_LIBEXEC_DIR}/download.sh ${WILDFLY_SWARM_DIR}/${TYPE} org/wildfly/swarm/servers ${TYPE} ${VERSION} ${CLASSFIER}
+    ${ZENOBIA_LIBEXEC_DIR}/download.sh ${WILDFLY_SWARM_DIR}/${TYPE} org/wildfly/swarm/servers ${TYPE} ${VERSION} ${CLASSIFIER}
 
-    ${ZENOBIA_LIBEXEC_DIR}/link.sh ${WILDFLY_SWARM_DIR}/${TYPE} "${TYPE}-${VERSION}-${CLASSFIER}.jar" "${TYPE}-${CLASSFIER}.jar"
+    ${ZENOBIA_LIBEXEC_DIR}/link.sh ${WILDFLY_SWARM_DIR}/${TYPE} "${TYPE}-${VERSION}-${CLASSIFIER}.jar" "${TYPE}-${CLASSIFIER}.jar"
 
-    ${ZENOBIA_LIBEXEC_DIR}/executable.sh "${TYPE}-${CLASSFIER}.jar" "${TYPE}-${CLASSFIER}"
+    ${ZENOBIA_LIBEXEC_DIR}/executable.sh "${TYPE}-${CLASSIFIER}.jar" "${TYPE}-${CLASSIFIER}"
 
 elif [ "${COMMAND}" == "set" ]; then
     if [ -z "${VERSION}" ]; then
@@ -70,9 +70,9 @@ elif [ "${COMMAND}" == "set" ]; then
         exit 1
     fi
     
-    ${ZENOBIA_LIBEXEC_DIR}/link.sh ${WILDFLY_SWARM_DIR}/${TYPE} "${TYPE}-${VERSION}-${CLASSFIER}.jar" "${TYPE}-${CLASSFIER}.jar"
+    ${ZENOBIA_LIBEXEC_DIR}/link.sh ${WILDFLY_SWARM_DIR}/${TYPE} "${TYPE}-${VERSION}-${CLASSIFIER}.jar" "${TYPE}-${CLASSIFIER}.jar"
 
-    ${ZENOBIA_LIBEXEC_DIR}/executable.sh "${TYPE}-${CLASSFIER}.jar" "${TYPE}-${CLASSFIER}"
+    ${ZENOBIA_LIBEXEC_DIR}/executable.sh "${TYPE}-${CLASSIFIER}.jar" "${TYPE}-${CLASSIFIER}"
 
 elif [ "${COMMAND}" == "list" ]; then
     if [ -z "${TYPE}" ]; then
@@ -84,8 +84,7 @@ elif [ "${COMMAND}" == "list" ]; then
             do
                 VT=(${VALID_TYPE[@]})
                 if [ "${TYPE}" == "${VT[0]}" ]; then
-                    CLASSFIER=${VT[1]}
-                    IS_VALID_TYPE=1
+                    CLASSIFIER=${VT[1]}
                 fi
             done
 
@@ -96,8 +95,56 @@ elif [ "${COMMAND}" == "list" ]; then
         show_swarm_version
     fi
 
+elif [ "${COMMAND}" == "list-remote" ];then
+    if [ -z "${TYPE}" ]; then
+        logging INFO "Maven Central registerd wildfly-swarm uberjars"
+
+        for VALID_TYPE in "${VALID_TYPES[@]}"
+        do
+            VT=(${VALID_TYPE[@]})
+            TYPE="${VT[0]}"
+            CLASSIFIER="${VT[1]}"
+
+            echo "  type: ${TYPE}"
+
+            if [ -e "${ZENOBIA_BIN_DIR}/${TYPE}-${CLASSIFIER}.jar" ]; then
+                CURRENT_VERSION=`ls -l ${ZENOBIA_BIN_DIR}/${TYPE}-${CLASSIFIER}.jar | perl -wp -e 's!.+-([^-]+)-(hollow)?swarm.jar!$1!'`
+            else
+                CURRENT_VERSION=
+            fi
+
+            for VERSION in `curl -s "http://search.maven.org/solrsearch/select?q=g:org.wildfly.swarm.servers+AND+a:${TYPE}&core=gav" |  perl -wp -e 's!,!,\n!g' | perl -wnl -e 'print "$1 " if /"v":"([^"]+)"/' | sort`
+            do
+                if [ "${CURRENT_VERSION}" == "${VERSION}" ]; then
+                    echo "    ${CURRENT_VERSION} [current]"
+                else
+                    echo "    ${VERSION}"
+                fi
+            done
+        done
+    else
+        logging INFO "Maven Central registerd wildfly-swarm ${TYPE} uberjars"
+
+        echo "  type: ${TYPE}"
+
+        if [ -e "${ZENOBIA_BIN_DIR}/${TYPE}-${CLASSIFIER}.jar" ]; then
+            CURRENT_VERSION=`ls -l ${ZENOBIA_BIN_DIR}/${TYPE}-${CLASSIFIER}.jar | perl -wp -e 's!.+-([^-]+)-(hollow)?swarm.jar!$1!'`
+        else
+            CURRENT_VERSION=
+        fi
+
+        for VERSION in `curl -s "http://search.maven.org/solrsearch/select?q=g:org.wildfly.swarm.servers+AND+a:${TYPE}&core=gav" |  perl -wp -e 's!,!,\n!g' | perl -wnl -e 'print "$1 " if /"v":"([^"]+)"/' | sort`
+        do
+            if [ "${CURRENT_VERSION}" == "${VERSION}" ]; then
+                echo "    ${CURRENT_VERSION} [current]"
+            else
+                echo "    ${VERSION}"
+            fi
+        done
+    fi
+
 elif [ "${COMMAND}" == "current" ]; then
-    VERSION=`ls -l ${ZENOBIA_BIN_DIR}/${TYPE}-${CLASSFIER}.jar | perl -wp -e 's!.+-([^-]+)-(hollow)?swarm.jar!$1!'`
+    VERSION=`ls -l ${ZENOBIA_BIN_DIR}/${TYPE}-${CLASSIFIER}.jar | perl -wp -e 's!.+-([^-]+)-(hollow)?swarm.jar!$1!'`
 
     logging INFO "current ${TYPE} version ${VERSION}"
 
@@ -107,19 +154,19 @@ elif [ "${COMMAND}" == "uninstall" ]; then
         exit 1
     fi
 
-    if [ -e ${WILDFLY_SWARM_DIR}/${TYPE}/"${TYPE}-${VERSION}-${CLASSFIER}.jar" ]; then
-        rm ${WILDFLY_SWARM_DIR}/${TYPE}/"${TYPE}-${VERSION}-${CLASSFIER}.jar"
-        logging INFO "uninstall ${TYPE}-${VERSION}-${CLASSFIER}.jar"
+    if [ -e ${WILDFLY_SWARM_DIR}/${TYPE}/"${TYPE}-${VERSION}-${CLASSIFIER}.jar" ]; then
+        rm ${WILDFLY_SWARM_DIR}/${TYPE}/"${TYPE}-${VERSION}-${CLASSIFIER}.jar"
+        logging INFO "uninstall ${TYPE}-${VERSION}-${CLASSIFIER}.jar"
 
-        CURRENT_VERSION=`ls -l ${ZENOBIA_BIN_DIR}/${TYPE}-${CLASSFIER}.jar | perl -wp -e 's!.+-([^-]+)-(hollow)?swarm.jar!$1!'`
+        CURRENT_VERSION=`ls -l ${ZENOBIA_BIN_DIR}/${TYPE}-${CLASSIFIER}.jar | perl -wp -e 's!.+-([^-]+)-(hollow)?swarm.jar!$1!'`
 
         if [ "${CURRENT_VERSION}" == "${VERSION}" ]; then
-            rm ${ZENOBIA_BIN_DIR}/${TYPE}/"${TYPE}-${CLASSFIER}.jar"
-            rm ${ZENOBIA_BIN_DIR}/${TYPE}/"${TYPE}-${CLASSFIER}"
-            logging INFO "remove ${TYPE}-${CLASSFIER}.jar"
-            logging INFO "remove ${TYPE}-${CLASSFIER}"
+            rm ${ZENOBIA_BIN_DIR}/${TYPE}/"${TYPE}-${CLASSIFIER}.jar"
+            rm ${ZENOBIA_BIN_DIR}/${TYPE}/"${TYPE}-${CLASSIFIER}"
+            logging INFO "remove ${TYPE}-${CLASSIFIER}.jar"
+            logging INFO "remove ${TYPE}-${CLASSIFIER}"
         fi
     else
-        logging INFO "already uninstalled ${TYPE}-${VERSION}-${CLASSFIER}.jar"
+        logging INFO "already uninstalled ${TYPE}-${VERSION}-${CLASSIFIER}.jar"
     fi
 fi

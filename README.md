@@ -33,6 +33,7 @@ $ payara-micro
 - install jar
 - uninstall jar
 - switch version
+- list version (local installed / Maven Central registered)
 - create executable file
 
 ### Support Platform
@@ -53,6 +54,7 @@ $ payara-micro
 - set
 - current
 - list
+- list-remote
 
 ## Install
 Installing Zenobia on UNIX-like platforms is as easy as ever. Zenobia installs smoothly on Mac OSX, Linux, Cygwin, Solaris and FreeBSD. support Bash shell.
@@ -157,6 +159,51 @@ $ zenobia list payara-micro
 [2018-03-24 15:03:48] [INFO] [payara-micro] local installed payara-micro jars
   5.181 [current]
   4.1.2.181
+```
+
+list maven central registered versions.
+```shellscript
+$ zenobia list-remote [server-type] ([wildfly-swarm type])
+```
+
+example.
+```shellscript
+$ zenobia list-remote wildfly-swarm
+[2018-03-24 15:49:56] [INFO] [wildfly-swarm] Maven Central registerd wildfly-swarm uberjars
+  type: microprofile
+    2017.10.2
+    2017.12.0
+    2017.12.1
+    2018.1.0
+    2018.2.0
+    2018.2.0.Final
+    2018.3.0
+    2018.3.1
+    2018.3.2
+    2018.3.3 [current]
+  type: web
+    2018.3.0
+    2018.3.1
+    2018.3.2
+    2018.3.3 [current]
+  ...
+
+$ zenobia list-remote wildfly-swarm web
+[2018-03-24 15:50:42] [INFO] [wildfly-swarm] Maven Central registerd wildfly-swarm web uberjars
+  type: web
+    2018.3.0
+    2018.3.1
+    2018.3.2
+    2018.3.3 [current]
+
+$ zenobia list-remote payara-micro
+
+[2018-03-24 15:51:15] [INFO] [payara-micro] Maven Central registered payara-micro jars
+  4.1.2.172
+  4.1.2.173
+  4.1.2.174
+  4.1.2.181
+  5.181 [current]
 ```
 
 ### Executable

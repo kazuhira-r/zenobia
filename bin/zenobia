@@ -25,6 +25,7 @@ VALID_COMMANDS=(
     set
     current
     list
+    list-remote
 )
 
 COMMAND=$1
