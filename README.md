@@ -133,7 +133,7 @@ $ zenobia current payara-micro
 [2018-03-24 15:08:35] [INFO] [payara-micro] current version 5.181
 ```
 
-list local install versions.
+list local installed versions.
 ```shellscript
 $ zenobia list [server-type] ([wildfly-swarm type])
 ```
