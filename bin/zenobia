@@ -2,6 +2,8 @@
 
 set -e
 
+export ZENOBIA_VERSION="0.1.0"
+
 export ZENOBIA_HOME=${HOME}/.zenobia
 export ZENOBIA_BIN_DIR=$(cd $(dirname $0)  && pwd)
 
