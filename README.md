@@ -12,7 +12,15 @@ $ curl https://raw.githubusercontent.com/kazuhira-r/zenobia/master/install-zenob
 $ source "${HOME}/.zenobia/bin/init-zenobia.sh"
 
 
-## Payara Micro install
+## latest WildFly Swarm Web Hollow Uberjar install
+$ zenobia install wildfly-swarm web
+
+
+## start WildFly Swarm Web Hollow Uberjar
+$ web-hollowswarm
+
+
+## latest Payara Micro install
 $ zenobia install payara-micro
 
 
