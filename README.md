@@ -3,6 +3,24 @@
 ## What's Zenobia
 Zenobia is a tool for local installation management of WildFly Swarm Hollow Uberjars and Payara Micro.
 
+```shellscript
+## install
+$ curl https://raw.githubusercontent.com/kazuhira-r/zenobia/master/install-zenobia.sh | bash
+
+
+## init
+$ source "${HOME}/.zenobia/bin/init-zenobia.sh"
+
+
+## Payara Micro install
+$ zenobia install payara-micro
+
+
+## start Payara Micro
+$ payara-micro
+```
+
+
 ### Feature
 - install jar
 - uninstall jar
