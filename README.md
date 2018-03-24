@@ -197,7 +197,6 @@ $ zenobia list-remote wildfly-swarm web
     2018.3.3 [current]
 
 $ zenobia list-remote payara-micro
-
 [2018-03-24 15:51:15] [INFO] [payara-micro] Maven Central registered payara-micro jars
   4.1.2.172
   4.1.2.173
