@@ -219,6 +219,17 @@ Payara Micro.
 $ payara-micro
 ```
 
+## Uninstall
+remove, `${HOME}/.zenobia` directory.
+```shellscript
+$ rm -rf ${HOME}/.zenobia
+```
+
+and, removing the initialisation snippet from your `.bashrc`, `.bash_profile` and/or `.profile` files.
+```shellscript
+[[ -s "${HOME}/.zenobia/bin/init-zenobia.sh" ]] && source "${HOME}/.zenobia/bin/init-zenobia.sh"
+```
+
 ## Development Mode
 To operate Zenobia as a development mode, set the environment variable `ZENOBIA_DEVELOPMENT=1`.
 ```shellscript
