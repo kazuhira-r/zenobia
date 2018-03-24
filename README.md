@@ -91,6 +91,20 @@ $ zenobia set wildfly-swarm web 2018.3.3
 $ zenobia set payara-micro 5.181
 ```
 
+show current version.
+```shellscript
+$ zenobia set [server-type] ([wildfly-swarm type])
+```
+
+example.
+```shellscript
+$ zenobia current wildfly-swarm web
+[2018-03-24 15:08:42] [INFO] [wildfly-swarm] current web version 2018.3.3
+
+$ zenobia current payara-micro
+[2018-03-24 15:08:35] [INFO] [payara-micro] current version 5.181
+```
+
 list local install versions.
 ```shellscript
 $ zenobia list [server-type] ([wildfly-swarm type])
