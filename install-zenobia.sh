@@ -28,11 +28,13 @@ do
 done
 
 LIBEXEC_SCRIPTS=(
+    build.sh
     download.sh
     executable.sh
     functions.sh
     link.sh
     payara-micro.sh
+    tomcat.sh
     wildfly-swarm.sh
 )
 

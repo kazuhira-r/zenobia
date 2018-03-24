@@ -8,6 +8,7 @@ export ZENOBIA_HOME=${HOME}/.zenobia
 export ZENOBIA_BIN_DIR=$(cd $(dirname $0)  && pwd)
 
 export ZENOBIA_LIBEXEC_DIR=$(cd ${ZENOBIA_BIN_DIR} && cd ../libexec && pwd)
+export ZENOBIA_SRC_BUILD_DIR=${HOME}/.zenobia/build
 
 source ${ZENOBIA_LIBEXEC_DIR}/functions.sh
 
@@ -18,6 +19,7 @@ fi
 
 export PAYARA_MICRO_DIR=${ZENOBIA_HOME}/payara-micro
 export WILDFLY_SWARM_DIR=${ZENOBIA_HOME}/wildfly-swarm
+export TOMCAT_DIR=${ZENOBIA_HOME}/tomcat
 
 VALID_COMMANDS=(
     install
@@ -44,7 +46,7 @@ if [ ${IS_VALID_COMMAND} -eq 0 ]; then
     exit 1
 fi
 
-if [ "${SERVER_TYPE}" != "wildfly-swarm" -a "${SERVER_TYPE}" != "payara-micro" ]; then
+if [ "${SERVER_TYPE}" != "wildfly-swarm" -a "${SERVER_TYPE}" != "payara-micro"  -a "${SERVER_TYPE}" != "tomcat" ]; then
     logging ERROR "invalid type ${SERVER_TYPE}"
     exit 1
 fi
@@ -67,12 +69,18 @@ do
     fi
 done
 
-if [ ! -e ${PAYARA_MICRO_DIR} ];then
+if [ ! -e ${PAYARA_MICRO_DIR} ]; then
     mkdir -p ${PAYARA_MICRO_DIR}
+fi
+
+if [ ! -e ${TOMCAT_DIR} ]; then
+    mkdir -p ${TOMCAT_DIR}
 fi
 
 if [ "${SERVER_TYPE}" == "wildfly-swarm" ]; then
     ${ZENOBIA_LIBEXEC_DIR}/wildfly-swarm.sh "$@"
 elif [ "${SERVER_TYPE}" == "payara-micro" ]; then
     ${ZENOBIA_LIBEXEC_DIR}/payara-micro.sh "$@"
+elif [ "${SERVER_TYPE}" == "tomcat" ]; then
+    ${ZENOBIA_LIBEXEC_DIR}/tomcat.sh "$@"
 fi

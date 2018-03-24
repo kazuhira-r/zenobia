@@ -42,6 +42,7 @@ $ payara-micro
 ### Support Application Server
 - WildFly Swarm
 - Payara Micro
+- Tomcat (under development...)
 
 ### Requirement
 - bash
