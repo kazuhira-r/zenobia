@@ -88,7 +88,7 @@ $ zenobia list [server-type] ([wildfly-swarm type])
 example.
 ```shellscript
 $ zenobia list wildfly-swarm
-[2018-03-24 01:48:55] [INFO] [wildfly-swarm] local installed wildfly-swarm uberjars
+[2018-03-24 15:03:41] [INFO] [wildfly-swarm] local installed wildfly-swarm uberjars
   type: microprofile
     2018.3.3 [current]
     2018.3.2
@@ -97,12 +97,13 @@ $ zenobia list wildfly-swarm
     2018.3.2
 
 $ zenobia list wildfly-swarm web
+[2018-03-24 15:03:44] [INFO] [wildfly-swarm] local installed wildfly-swarm web uberjars
   type: web
     2018.3.3 [current]
     2018.3.2
 
 $ zenobia list payara-micro
-[2018-03-24 01:49:33] [INFO] [payara-micro] local installed payara-micro jars
+[2018-03-24 15:03:48] [INFO] [payara-micro] local installed payara-micro jars
   5.181 [current]
   4.1.2.181
 ```
