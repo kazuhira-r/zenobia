@@ -14,6 +14,9 @@ hs_err_pid*
 # Maven generate directory
 target
 
+# for Maven Shade Plugin
+dependency-reduced-pom.xml
+
 # for Intellij IDEA
 .idea
 *.iml
