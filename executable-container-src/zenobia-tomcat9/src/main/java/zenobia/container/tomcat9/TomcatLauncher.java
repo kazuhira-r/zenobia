@@ -36,6 +36,9 @@ public class TomcatLauncher {
 
         tomcat.addWebapp(contextPath, warFile.toAbsolutePath().toString());
 
+        tomcat.start();
+        tomcat.getConnector().start();
+
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
                 tomcat.stop();
@@ -43,9 +46,6 @@ public class TomcatLauncher {
                 e.printStackTrace();
             }
         }));
-
-        tomcat.start();
-        tomcat.getConnector().start();
 
         tomcat.getServer().await();
     }
