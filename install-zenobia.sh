@@ -45,3 +45,13 @@ do
     curl -s https://raw.githubusercontent.com/kazuhira-r/zenobia/master/libexec/${LIBEXEC_SCRIPT} -o ${ZENOBIA_LIBEXEC_DIR}/${LIBEXEC_SCRIPT}
     chmod a+x ${ZENOBIA_LIBEXEC_DIR}/${LIBEXEC_SCRIPT}
 done
+
+ZENOBIA_VERSION=`grep 'ZENOBIA_VERSION=' ${ZENOBIA_HOME}/bin/zenobia | perl -wp -e 's!.*ZENOBIA_VERSION="([^"]+)".*!$1!'`
+
+echo "Installed Zenobia ${ZENOBIA_VERSION}!!"
+echo
+echo "editing and removing the initialisation snippet from your .bashrc, .bash_profile and/or .profile files."
+echo '"[[ -s "${HOME}/.zenobia/bin/init-zenobia.sh" ]] && source "${HOME}/.zenobia/bin/init-zenobia.sh"'
+echo
+echo "Enjoy Zenobia!!"
+
