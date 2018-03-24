@@ -92,6 +92,7 @@ elif [ "${COMMAND}" == "list" ]; then
             show_swarm_version
         done
     else
+        logging INFO "local installed wildfly-swarm ${TYPE} uberjars"
         show_swarm_version
     fi
 
