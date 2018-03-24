@@ -12,17 +12,25 @@ import javax.servlet.ServletException;
 
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Tomcat;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
 
 public class TomcatLauncher {
     public static void main(String... args) throws LifecycleException, ServletException, IOException {
-        if (args.length < 1) {
-            System.out.println("Usage tomcat [warfile-path]");
+        ServerOption option = new ServerOption();
+        CmdLineParser parser = new CmdLineParser(option);
+
+        try {
+            parser.parseArgument(args);
+        } catch (CmdLineException e) {
+            System.err.println(e.getMessage());
+            parser.printUsage(System.err);
             System.exit(1);
         }
 
-        Path warFile = Paths.get(args[0]).toAbsolutePath();
-        int port = 8080;
-        String contextPath = "";
+        Path warFile = Paths.get(option.getDeployPath()).toAbsolutePath();
+        int port = option.getPort();
+        String contextPath = option.getContext();
 
         Path baseDir = createTemporaryDirectory(Paths.get(System.getProperty("java.io.tmpdir")), "tomcat-");
 
