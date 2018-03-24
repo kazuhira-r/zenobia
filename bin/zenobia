@@ -28,6 +28,7 @@ VALID_COMMANDS=(
     current
     list
     list-remote
+    selfupdate
 )
 
 COMMAND=$1
@@ -44,6 +45,12 @@ done
 if [ ${IS_VALID_COMMAND} -eq 0 ]; then
     logging ERROR "invalid command ${COMMAND}"
     exit 1
+fi
+
+if [ "${COMMAND}" == "selfupdate" ]; then
+    logging INFO "selfupdating..."
+    curl https://raw.githubusercontent.com/kazuhira-r/zenobia/master/install-zenobia.sh | bash
+    exit 0
 fi
 
 if [ "${SERVER_TYPE}" != "wildfly-swarm" -a "${SERVER_TYPE}" != "payara-micro"  -a "${SERVER_TYPE}" != "tomcat" ]; then

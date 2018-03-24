@@ -56,6 +56,7 @@ $ payara-micro
 - current
 - list
 - list-remote
+- selfupdate
 
 ## Install
 Installing Zenobia on UNIX-like platforms is as easy as ever. Zenobia installs smoothly on Mac OSX, Linux, Cygwin, Solaris and FreeBSD. support Bash shell.
@@ -217,6 +218,11 @@ $ microprofile-hollowswarm
 Payara Micro.
 ```shellscript
 $ payara-micro
+```
+
+## Update
+```shellscript
+$ zenobia selfupdate
 ```
 
 ## Uninstall
