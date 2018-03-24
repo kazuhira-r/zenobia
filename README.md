@@ -21,6 +21,13 @@ Zenobia is a tool for local installation management of WildFly Swarm Hollow Uber
 - Perl
 - curl
 
+### Command
+- install
+- uninstall
+- set
+- current
+- list
+
 ## Install
 Installing Zenobia on UNIX-like platforms is as easy as ever. Zenobia installs smoothly on Mac OSX, Linux, Cygwin, Solaris and FreeBSD. support Bash shell.
 Simply open a new terminal and enter:
