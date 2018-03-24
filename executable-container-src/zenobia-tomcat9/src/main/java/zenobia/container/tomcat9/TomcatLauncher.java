@@ -8,38 +8,35 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-
 import javax.servlet.ServletException;
 
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Tomcat;
 
 public class TomcatLauncher {
-    public static void main(String... args) throws LifecycleException, ServletException {
+    public static void main(String... args) throws LifecycleException, ServletException, IOException {
         if (args.length < 1) {
             System.out.println("Usage tomcat [warfile-path]");
             System.exit(1);
         }
 
-        String warFile = args[0];
+        Path warFile = Paths.get(args[0]).toAbsolutePath();
         int port = 8080;
-        String contextPath = "/";
+        String contextPath = "";
 
-        Path baseDir = createTemporaryDirectory(Paths.get(System.getProperty("java.io.tmpdir")), "tomcat");
+        Path baseDir = createTemporaryDirectory(Paths.get(System.getProperty("java.io.tmpdir")), "tomcat-");
+
+        Path webappsDirectory = Paths.get(baseDir.toString(), "webapps");
+        Files.createDirectories(webappsDirectory);
 
         Tomcat tomcat = new Tomcat();
         tomcat.setPort(port);
         tomcat.setBaseDir(baseDir.toString());
         tomcat.getServer().setParentClassLoader(TomcatLauncher.class.getClassLoader());
-        tomcat.addWebapp(contextPath, warFile);
+
+        tomcat.addWebapp(contextPath, warFile.toAbsolutePath().toString());
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            try {
-                Files.delete(baseDir);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
             try {
                 tomcat.stop();
             } catch (LifecycleException e) {
@@ -48,6 +45,8 @@ public class TomcatLauncher {
         }));
 
         tomcat.start();
+        tomcat.getConnector().start();
+
         tomcat.getServer().await();
     }
 
