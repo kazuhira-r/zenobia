@@ -122,7 +122,7 @@ $ zenobia set payara-micro 5.181
 
 show current version.
 ```shellscript
-$ zenobia set [server-type] ([wildfly-swarm type])
+$ zenobia current [server-type] ([wildfly-swarm type])
 ```
 
 example.
