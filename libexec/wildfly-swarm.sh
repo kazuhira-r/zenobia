@@ -55,7 +55,7 @@ fi
 
 if [ "${COMMAND}" == "install" ]; then
     if [ -z "${VERSION}" ]; then
-        VERSION=`curl -s "http://search.maven.org/solrsearch/select?q=g:org.wildfly.swarm.servers+AND+a:${TYPE}" | perl -wn -e 'print $1 if /"latestVersion":"([^"]+)"/'`
+        VERSION=`curl -s "https://search.maven.org/solrsearch/select?q=g:org.wildfly.swarm.servers+AND+a:${TYPE}" | perl -wn -e 'print $1 if /"latestVersion":"([^"]+)"/'`
     fi
 
     ${ZENOBIA_LIBEXEC_DIR}/download.sh ${WILDFLY_SWARM_DIR}/${TYPE} org/wildfly/swarm/servers ${TYPE} ${VERSION} ${CLASSIFIER}
@@ -113,7 +113,7 @@ elif [ "${COMMAND}" == "list-remote" ];then
                 CURRENT_VERSION=
             fi
 
-            for VERSION in `curl -s "http://search.maven.org/solrsearch/select?q=g:org.wildfly.swarm.servers+AND+a:${TYPE}&core=gav" |  perl -wp -e 's!,!,\n!g' | perl -wnl -e 'print "$1 " if /"v":"([^"]+)"/' | sort`
+            for VERSION in `curl -s "https://search.maven.org/solrsearch/select?q=g:org.wildfly.swarm.servers+AND+a:${TYPE}&core=gav" |  perl -wp -e 's!,!,\n!g' | perl -wnl -e 'print "$1 " if /"v":"([^"]+)"/' | sort`
             do
                 if [ "${CURRENT_VERSION}" == "${VERSION}" ]; then
                     echo "    ${CURRENT_VERSION} [current]"
@@ -133,7 +133,7 @@ elif [ "${COMMAND}" == "list-remote" ];then
             CURRENT_VERSION=
         fi
 
-        for VERSION in `curl -s "http://search.maven.org/solrsearch/select?q=g:org.wildfly.swarm.servers+AND+a:${TYPE}&core=gav" |  perl -wp -e 's!,!,\n!g' | perl -wnl -e 'print "$1 " if /"v":"([^"]+)"/' | sort`
+        for VERSION in `curl -s "https://search.maven.org/solrsearch/select?q=g:org.wildfly.swarm.servers+AND+a:${TYPE}&core=gav" |  perl -wp -e 's!,!,\n!g' | perl -wnl -e 'print "$1 " if /"v":"([^"]+)"/' | sort`
         do
             if [ "${CURRENT_VERSION}" == "${VERSION}" ]; then
                 echo "    ${CURRENT_VERSION} [current]"

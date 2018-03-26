@@ -9,7 +9,7 @@ VERSION=$3
 
 if [ "${COMMAND}" == "install" ]; then
     if [ -z "${VERSION}" ]; then
-        VERSION=`curl -s 'http://search.maven.org/solrsearch/select?q=g:fish.payara.extras+AND+a:payara-micro' | perl -wn -e 'print $1 if /"latestVersion":"([^"]+)"/'`
+        VERSION=`curl -s 'https://search.maven.org/solrsearch/select?q=g:fish.payara.extras+AND+a:payara-micro' | perl -wn -e 'print $1 if /"latestVersion":"([^"]+)"/'`
     fi
     
     ${ZENOBIA_LIBEXEC_DIR}/download.sh ${PAYARA_MICRO_DIR} fish/payara/extras payara-micro ${VERSION}
@@ -49,7 +49,7 @@ elif [ "${COMMAND}" == "list-remote" ];then
 
     CURRENT_VERSION=`ls -l ${ZENOBIA_BIN_DIR}/payara-micro.jar | perl -wp -e 's!.+payara-micro-([^-]+).jar!$1!'`
     
-    for VERSION in `curl -s 'http://search.maven.org/solrsearch/select?q=g:fish.payara.extras+AND+a:payara-micro&core=gav' | perl -wp -e 's!,!,\n!g' | perl -wnl -e 'print "$1 " if /"v":"([^"]+)"/' | sort | grep -vEi 'alpha|beta'`
+    for VERSION in `curl -s 'https://search.maven.org/solrsearch/select?q=g:fish.payara.extras+AND+a:payara-micro&core=gav' | perl -wp -e 's!,!,\n!g' | perl -wnl -e 'print "$1 " if /"v":"([^"]+)"/' | sort | grep -vEi 'alpha|beta'`
     do
         if [ "${CURRENT_VERSION}" == "${VERSION}" ]; then
             echo "  ${CURRENT_VERSION} [current]"
