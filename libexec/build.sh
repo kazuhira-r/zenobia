@@ -20,9 +20,12 @@ fi
 
 cd ${ZENOBIA_SRC_BUILD_DIR}
 
+set +e
 which mvn 2>&1 > /dev/null
+FOUND_MAVEN=$?
+set -e
 
-if [ $? -ne 0 ]; then
+if [ ${FOUND_MAVEN} -ne 0 ]; then
     logging INFO "use Maven Wrapper..."
 
     curl -s ${GITHUB_RAW_USERCONTENT_BASE_URL}/executable-container/mvnw.tar.gz  -o mvnw.tar.gz
