@@ -91,7 +91,7 @@ elif [ "${COMMAND}" == "list" ]; then
 elif [ "${COMMAND}" == "list-remote" ];then
     logging INFO "Maven Central registered tomcat 9 jars"
 
-    CURRENT_VERSION=`ls -l ${ZENOBIA_BIN_DIR}/tomcat9.jar | perl -wp -e 's!.+tomcat9-([^-]+).jar!$1!'`
+    CURRENT_VERSION=`ls -l ${ZENOBIA_BIN_DIR}/tomcat9.jar 2> /dev/null | perl -wp -e 's!.+tomcat9-([^-]+).jar!$1!'`
 
     for VERSION in `curl -s 'https://search.maven.org/solrsearch/select?q=g:org.apache.tomcat.embed+AND+a:tomcat-embed-core+AND+v:9*&rows=100&core=gav' | perl -wp -e 's!,!,\n!g' | perl -wnl -e 'print "$1 " if /"v":"([^"]+)"/' | sort | grep -v M`
     do
@@ -104,7 +104,7 @@ elif [ "${COMMAND}" == "list-remote" ];then
 
     logging INFO "Maven Central registered tomcat 8.5 jars"
 
-    CURRENT_VERSION=`ls -l ${ZENOBIA_BIN_DIR}/tomcat85.jar | perl -wp -e 's!.+tomcat85-([^-]+).jar!$1!'`
+    CURRENT_VERSION=`ls -l ${ZENOBIA_BIN_DIR}/tomcat85.jar 2> /dev/null | perl -wp -e 's!.+tomcat85-([^-]+).jar!$1!'`
 
     for VERSION in `curl -s 'https://search.maven.org/solrsearch/select?q=g:org.apache.tomcat.embed+AND+a:tomcat-embed-core+AND+v:8.5*&rows=100&core=gav' | perl -wp -e 's!,!,\n!g' | perl -wnl -e 'print "$1 " if /"v":"([^"]+)"/' | sort`
     do
