@@ -21,6 +21,15 @@ export PAYARA_MICRO_DIR=${ZENOBIA_HOME}/payara-micro
 export WILDFLY_SWARM_DIR=${ZENOBIA_HOME}/wildfly-swarm
 export TOMCAT_DIR=${ZENOBIA_HOME}/tomcat
 
+## OS specific support
+export RUN_CYGWIN=0
+
+case "`uname`" in
+    CYGWIN*)
+        RUN_CYGWIN=1
+        ;;
+esac
+
 VALID_COMMANDS=(
     install
     uninstall
