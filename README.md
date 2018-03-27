@@ -17,7 +17,7 @@ $ zenobia install wildfly-swarm web
 
 
 ## start WildFly Swarm Web Hollow Uberjar
-$ web-hollowswarm
+$ web-hollowswarm [war-file path]
 
 
 ## latest Payara Micro install
@@ -25,9 +25,21 @@ $ zenobia install payara-micro
 
 
 ## start Payara Micro
-$ payara-micro
+$ payara-micro --deploy [war-file path]
+
+
+## latest Apache Tomcat (current 9) install
+$ zenobia install tomcat
+
+
+## start Apache Tomcat 9
+$ tomcat9 --deploy [war-file path or deploy directory]
+
+## start Apache Tomcat 8.5
+$ tomcat85 --deploy [war-file path or deploy directory]
 ```
 
+*Note: when running with Cygwin, it has a .bat extension (e.g. `tomcat9.bat`)
 
 ### Feature
 - install jar
@@ -210,15 +222,27 @@ $ zenobia list-remote payara-micro
 ### Executable
 WildFly Swarm Hollow Uberjar.
 ```shellscript
-$ web-hollowswarm
+$ web-hollowswarm [war-file path]
 
 $ microprofile-hollowswarm
 ```
 
 Payara Micro.
 ```shellscript
-$ payara-micro
+$ payara-micro --deploy [war-file path]
 ```
+
+Apache Tomcat 9.
+```shellscript
+$ tomcat9 --deploy [war-file path or deploy directory]
+```
+
+Apache Tomcat 8.5.
+```shellscript
+$ tomcat85 --deploy [war-file path or deploy directory]
+```
+
+*Note: when running with Cygwin, it has a .bat extension (e.g. `tomcat9.bat`)
 
 ## Update
 ```shellscript
