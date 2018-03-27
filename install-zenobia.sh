@@ -53,7 +53,7 @@ ZENOBIA_VERSION=`grep 'ZENOBIA_VERSION=' ${ZENOBIA_HOME}/bin/zenobia | perl -wp 
 echo "Installed Zenobia ${ZENOBIA_VERSION}!!"
 echo
 echo "editing and removing the initialisation snippet from your .bashrc, .bash_profile and/or .profile files."
-echo '"[[ -s "${HOME}/.zenobia/bin/init-zenobia.sh" ]] && source "${HOME}/.zenobia/bin/init-zenobia.sh"'
+echo '[[ -s "${HOME}/.zenobia/bin/init-zenobia.sh" ]] && source "${HOME}/.zenobia/bin/init-zenobia.sh"'
 echo
 echo "Enjoy Zenobia!!"
 
