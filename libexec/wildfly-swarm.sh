@@ -161,8 +161,8 @@ elif [ "${COMMAND}" == "uninstall" ]; then
         CURRENT_VERSION=`ls -l ${ZENOBIA_BIN_DIR}/${TYPE}-${CLASSIFIER}.jar | perl -wp -e 's!.+-([^-]+)-(hollow)?swarm.jar!$1!'`
 
         if [ "${CURRENT_VERSION}" == "${VERSION}" ]; then
-            rm ${ZENOBIA_BIN_DIR}/${TYPE}/"${TYPE}-${CLASSIFIER}.jar"
-            rm ${ZENOBIA_BIN_DIR}/${TYPE}/"${TYPE}-${CLASSIFIER}"
+            rm ${ZENOBIA_BIN_DIR}/"${TYPE}-${CLASSIFIER}.jar"
+            rm ${ZENOBIA_BIN_DIR}/"${TYPE}-${CLASSIFIER}"
             logging INFO "remove ${TYPE}-${CLASSIFIER}.jar"
             logging INFO "remove ${TYPE}-${CLASSIFIER}"
         fi
