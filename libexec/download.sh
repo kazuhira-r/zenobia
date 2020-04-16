@@ -19,7 +19,7 @@ if [ ! -z "${CLASSIFIER}" ];then
     DOWNLOAD_URL=https://search.maven.org/remotecontent?filepath=${GROUP_DIR}/${ARTIFACT_NAME}/${VERSION}/${ARTIFACT_NAME}-${VERSION}-${CLASSIFIER}.jar
     logging INFO "downloading... ${ARTIFACT_NAME}-${VERSION}-${CLASSIFIER}.jar"
     
-    curl ${DOWNLOAD_URL} -o ${ARTIFACT_NAME}-${VERSION}-${CLASSIFIER}.jar
+    curl -L ${DOWNLOAD_URL} -o ${ARTIFACT_NAME}-${VERSION}-${CLASSIFIER}.jar
 
     grep 'Not Found' ${ARTIFACT_NAME}-${VERSION}-${CLASSIFIER}.jar 2>&1 > /dev/null
     if [ $? -eq 0 ]; then
@@ -36,7 +36,7 @@ else
     DOWNLOAD_URL=https://search.maven.org/remotecontent?filepath=${GROUP_DIR}/${ARTIFACT_NAME}/${VERSION}/${ARTIFACT_NAME}-${VERSION}.jar
     logging INFO "downloading... ${ARTIFACT_NAME}-${VERSION}.jar"
     
-    curl ${DOWNLOAD_URL} -o ${ARTIFACT_NAME}-${VERSION}.jar
+    curl -L ${DOWNLOAD_URL} -o ${ARTIFACT_NAME}-${VERSION}.jar
 
     grep 'Not Found' ${ARTIFACT_NAME}-${VERSION}.jar 2>&1 > /dev/null
     if [ $? -eq 0 ]; then

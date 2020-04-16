@@ -31,7 +31,7 @@ COMMAND=$1
 VERSION=$3
 
 if [ -z "${VERSION}" ]; then
-    LATEST_VERSION=`curl -s 'https://search.maven.org/solrsearch/select?q=g:org.apache.tomcat.embed+AND+a:tomcat-embed-core' | perl -wn -e 'print $1 if /"latestVersion":"([^"]+)"/'`
+    LATEST_VERSION=`curl -L -s 'https://search.maven.org/solrsearch/select?q=g:org.apache.tomcat.embed+AND+a:tomcat-embed-core' | perl -wn -e 'print $1 if /"latestVersion":"([^"]+)"/'`
 fi
 
 set +e
@@ -93,7 +93,7 @@ elif [ "${COMMAND}" == "list-remote" ];then
 
     CURRENT_VERSION=`ls -l ${ZENOBIA_BIN_DIR}/tomcat9.jar 2> /dev/null | perl -wp -e 's!.+tomcat9-([^-]+).jar!$1!'`
 
-    for VERSION in `curl -s 'https://search.maven.org/solrsearch/select?q=g:org.apache.tomcat.embed+AND+a:tomcat-embed-core+AND+v:9*&rows=100&core=gav' | perl -wp -e 's!,!,\n!g' | perl -wnl -e 'print "$1 " if /"v":"([^"]+)"/' | sort | grep -v M`
+    for VERSION in `curl -L -s 'https://search.maven.org/solrsearch/select?q=g:org.apache.tomcat.embed+AND+a:tomcat-embed-core+AND+v:9*&rows=100&core=gav' | perl -wp -e 's!,!,\n!g' | perl -wnl -e 'print "$1 " if /"v":"([^"]+)"/' | sort | grep -v M`
     do
         if [ "${CURRENT_VERSION}" == "${VERSION}" ]; then
             echo "  ${CURRENT_VERSION} [current]"
@@ -106,7 +106,7 @@ elif [ "${COMMAND}" == "list-remote" ];then
 
     CURRENT_VERSION=`ls -l ${ZENOBIA_BIN_DIR}/tomcat85.jar 2> /dev/null | perl -wp -e 's!.+tomcat85-([^-]+).jar!$1!'`
 
-    for VERSION in `curl -s 'https://search.maven.org/solrsearch/select?q=g:org.apache.tomcat.embed+AND+a:tomcat-embed-core+AND+v:8.5*&rows=100&core=gav' | perl -wp -e 's!,!,\n!g' | perl -wnl -e 'print "$1 " if /"v":"([^"]+)"/' | sort`
+    for VERSION in `curl -L -s 'https://search.maven.org/solrsearch/select?q=g:org.apache.tomcat.embed+AND+a:tomcat-embed-core+AND+v:8.5*&rows=100&core=gav' | perl -wp -e 's!,!,\n!g' | perl -wnl -e 'print "$1 " if /"v":"([^"]+)"/' | sort`
     do
         if [ "${CURRENT_VERSION}" == "${VERSION}" ]; then
             echo "  ${CURRENT_VERSION} [current]"

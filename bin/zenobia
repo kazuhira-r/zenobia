@@ -75,7 +75,7 @@ fi
 
 if [ "${COMMAND}" == "selfupdate" ]; then
     logging INFO "selfupdating..."
-    curl https://raw.githubusercontent.com/kazuhira-r/zenobia/master/install-zenobia.sh | bash
+    curl -L -s https://raw.githubusercontent.com/kazuhira-r/zenobia/master/install-zenobia.sh | bash
     exit 0
 fi
 

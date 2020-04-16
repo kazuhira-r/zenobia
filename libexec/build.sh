@@ -28,7 +28,7 @@ set -e
 if [ ${FOUND_MAVEN} -ne 0 ]; then
     logging INFO "use Maven Wrapper..."
 
-    curl -s ${GITHUB_RAW_USERCONTENT_BASE_URL}/executable-container/mvnw.tar.gz  -o mvnw.tar.gz
+    curl -L -s ${GITHUB_RAW_USERCONTENT_BASE_URL}/executable-container/mvnw.tar.gz  -o mvnw.tar.gz
     tar -xf mvnw.tar.gz
 
     MVN=./mvnw
@@ -38,7 +38,7 @@ else
     MVN=mvn
 fi
 
-curl -s ${GITHUB_RAW_USERCONTENT_BASE_URL}/executable-container/${ARTIFACT_NAME}.tar.gz -o ${ARTIFACT_NAME}.tar.gz
+curl -L -s ${GITHUB_RAW_USERCONTENT_BASE_URL}/executable-container/${ARTIFACT_NAME}.tar.gz -o ${ARTIFACT_NAME}.tar.gz
 tar -xf ${ARTIFACT_NAME}.tar.gz
 
 perl -wpi -e "s!<server.name>.+</server.name>!<server.name>${SERVER_NAME}</server.name>!" pom.xml

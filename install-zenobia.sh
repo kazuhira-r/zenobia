@@ -23,7 +23,7 @@ BIN_SCRIPTS=(
 
 for BIN_SCRIPT in ${BIN_SCRIPTS[@]}
 do
-    curl -s https://raw.githubusercontent.com/kazuhira-r/zenobia/master/bin/${BIN_SCRIPT} -o ${ZENOBIA_BIN_DIR}/${BIN_SCRIPT}
+    curl -L -s https://raw.githubusercontent.com/kazuhira-r/zenobia/master/bin/${BIN_SCRIPT} -o ${ZENOBIA_BIN_DIR}/${BIN_SCRIPT}
     chmod a+x ${ZENOBIA_BIN_DIR}/${BIN_SCRIPT}
 done
 
@@ -43,7 +43,7 @@ fi
 
 for LIBEXEC_SCRIPT in ${LIBEXEC_SCRIPTS[@]}
 do
-    curl -s https://raw.githubusercontent.com/kazuhira-r/zenobia/master/libexec/${LIBEXEC_SCRIPT} -o ${ZENOBIA_LIBEXEC_DIR}/${LIBEXEC_SCRIPT}
+    curl -L -s https://raw.githubusercontent.com/kazuhira-r/zenobia/master/libexec/${LIBEXEC_SCRIPT} -o ${ZENOBIA_LIBEXEC_DIR}/${LIBEXEC_SCRIPT}
     chmod a+x ${ZENOBIA_LIBEXEC_DIR}/${LIBEXEC_SCRIPT}
 done
 
