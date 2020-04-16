@@ -37,6 +37,7 @@ VALID_COMMANDS=(
     list
     list-remote
     selfupdate
+    help
 )
 
 COMMAND=$1
@@ -50,8 +51,25 @@ do
     fi
 done
 
-if [ ${IS_VALID_COMMAND} -eq 0 ]; then
-    logging ERROR "invalid command ${COMMAND}"
+if [ "${COMMAND}" == "help" -o  ${IS_VALID_COMMAND} -eq 0 ]; then
+    if [ ${IS_VALID_COMMAND} -eq 0 ]; then
+        logging ERROR "invalid command ${COMMAND}"
+    fi
+
+    echo '''zenobia [command] [server-type]
+
+  command:
+    install
+    uninstall
+    set
+    current
+    list
+    list-remote
+    selfupdate
+
+  server-type:
+    tomcat
+    payara-micro'''
     exit 1
 fi
 
