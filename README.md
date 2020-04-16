@@ -60,6 +60,7 @@ $ tomcat85 --deploy [war-file path or deploy directory]
 - list
 - list-remote
 - selfupdate
+- help
 
 ## Install
 Installing Zenobia on UNIX-like platforms is as easy as ever. Zenobia installs smoothly on Mac OSX, Linux, Cygwin, Solaris and FreeBSD. support Bash shell.
