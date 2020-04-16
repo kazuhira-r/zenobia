@@ -33,9 +33,8 @@ LIBEXEC_SCRIPTS=(
     executable.sh
     functions.sh
     link.sh
-    payara-micro.sh
     tomcat.sh
-    wildfly-swarm.sh
+    payara-micro.sh
 )
 
 if [ -e "${ZENOBIA_LIBEXEC_DIR}/*" ]; then
