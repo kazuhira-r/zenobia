@@ -1,7 +1,7 @@
 # Zenobia
 
 ## What's Zenobia
-Zenobia is a tool for local installation management of Apache Tomcat and, Payara Micro.
+Zenobia is a tool for local installation management of Apache Tomcat and Payara Micro.
 
 ```shellscript
 ## install
@@ -41,7 +41,7 @@ $ tomcat85 --deploy [war-file path or deploy directory]
 - create executable file
 
 ### Support Platform
-*nix (e.g. Linux)
+Linux
 
 ### Support Application Server
 - Tomcat
@@ -63,7 +63,7 @@ $ tomcat85 --deploy [war-file path or deploy directory]
 - help
 
 ## Install
-Installing Zenobia on UNIX-like platforms is as easy as ever. Zenobia installs smoothly on Mac OSX, Linux, Cygwin, Solaris and FreeBSD. support Bash shell.
+Installing Zenobia on UNIX-like platforms is as easy as ever. Zenobia installs smoothly on Linux. support Bash shell.
 Simply open a new terminal and enter:
 ```shellscript
 $ curl https://raw.githubusercontent.com/kazuhira-r/zenobia/master/install-zenobia.sh | bash
@@ -263,9 +263,6 @@ Payara Micro.
 ```shellscript
 $ payara-micro --deploy [war-file path]
 ```
-
-
-*Note: when running with Cygwin, it has a .bat extension (e.g. `tomcat9.bat`)
 
 ## Update
 ```shellscript
