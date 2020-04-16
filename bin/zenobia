@@ -17,9 +17,8 @@ if [ "${ZENOBIA_DEVELOPMENT}" == "1" ]; then
     export ZENOBIA_BIN_DIR=${ZENOBIA_HOME}/bin
 fi
 
-export PAYARA_MICRO_DIR=${ZENOBIA_HOME}/payara-micro
-export WILDFLY_SWARM_DIR=${ZENOBIA_HOME}/wildfly-swarm
 export TOMCAT_DIR=${ZENOBIA_HOME}/tomcat
+export PAYARA_MICRO_DIR=${ZENOBIA_HOME}/payara-micro
 
 ## OS specific support
 export RUN_CYGWIN=0
@@ -62,41 +61,18 @@ if [ "${COMMAND}" == "selfupdate" ]; then
     exit 0
 fi
 
-if [ "${SERVER_TYPE}" != "wildfly-swarm" -a "${SERVER_TYPE}" != "payara-micro"  -a "${SERVER_TYPE}" != "tomcat" ]; then
-    logging ERROR "invalid type ${SERVER_TYPE}"
-    exit 1
-fi
-
 export SERVER_TYPE
-
-WILDFLY_SWARM_TYPE=(
-    microprofile
-    web
-    full
-    keycloak
-    swagger-ui
-    management-console
-)
-
-for TYPE in ${WILDFLY_SWARM_TYPE[@]}
-do
-    if [ ! -e ${WILDFLY_SWARM_DIR}/${TYPE} ]; then
-        mkdir -p ${WILDFLY_SWARM_DIR}/${TYPE}
-    fi
-done
-
-if [ ! -e ${PAYARA_MICRO_DIR} ]; then
-    mkdir -p ${PAYARA_MICRO_DIR}
-fi
 
 if [ ! -e ${TOMCAT_DIR} ]; then
     mkdir -p ${TOMCAT_DIR}
 fi
 
-if [ "${SERVER_TYPE}" == "wildfly-swarm" ]; then
-    ${ZENOBIA_LIBEXEC_DIR}/wildfly-swarm.sh "$@"
+if [ ! -e ${PAYARA_MICRO_DIR} ]; then
+    mkdir -p ${PAYARA_MICRO_DIR}
+fi
+
+if [ "${SERVER_TYPE}" == "tomcat" ]; then
+    ${ZENOBIA_LIBEXEC_DIR}/tomcat.sh "$@"
 elif [ "${SERVER_TYPE}" == "payara-micro" ]; then
     ${ZENOBIA_LIBEXEC_DIR}/payara-micro.sh "$@"
-elif [ "${SERVER_TYPE}" == "tomcat" ]; then
-    ${ZENOBIA_LIBEXEC_DIR}/tomcat.sh "$@"
 fi

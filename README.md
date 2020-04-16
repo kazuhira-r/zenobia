@@ -1,7 +1,7 @@
 # Zenobia
 
 ## What's Zenobia
-Zenobia is a tool for local installation management of WildFly Swarm Hollow Uberjars and Payara Micro.
+Zenobia is a tool for local installation management of Apache Tomcat and, Payara Micro.
 
 ```shellscript
 ## install
@@ -10,14 +10,6 @@ $ curl https://raw.githubusercontent.com/kazuhira-r/zenobia/master/install-zenob
 
 ## init
 $ source "${HOME}/.zenobia/bin/init-zenobia.sh"
-
-
-## latest WildFly Swarm Web Hollow Uberjar install
-$ zenobia install wildfly-swarm web
-
-
-## start WildFly Swarm Web Hollow Uberjar
-$ web-hollowswarm [war-file path]
 
 
 ## latest Payara Micro install
@@ -52,9 +44,8 @@ $ tomcat85 --deploy [war-file path or deploy directory]
 *nix (e.g. Linux)
 
 ### Support Application Server
-- WildFly Swarm
+- Tomcat
 - Payara Micro
-- Tomcat (under development...)
 
 ### Requirement
 - bash
@@ -87,36 +78,36 @@ Once removed, you have successfully uninstalled Zenobia from your machine.
 ### Basic Command
 install latest version.
 ```shellscript
-$ zenobia install [server-type] ([wildfly-swarm type])
+$ zenobia install [server-type]
 ```
 
 example.
 ```shellscript
-$ zenobia install wildfly-swarm web
+$ zenobia install tomcat
 
 $ zenobia install payara-micro
 ```
 
 install specified version.
 ```shellscript
-$ zenobia install [server-type] ([wildfly-swarm type]) [version]
+$ zenobia install [server-type]
 ```
 
 example.
 ```shellscript
-$ zenobia install wildfly-swarm microprofile 2018.3.3
+$ zenobia install tomcat 9.0.34
 
 $ zenobia install payara-micro 5.181
 ```
 
 uninstall specified version.
 ```shellscript
-$ zenobia uninstall [server-type] ([wildfly-swarm type]) [version]
+$ zenobia uninstall [server-type]
 ```
 
 example.
 ```shellscript
-$ zenobia uninstall wildfly-swarm microprofile 2018.3.3
+$ zenobia uninstall tomcat 9.0.34
 
 $ zenobia uninstall payara-micro 5.181
 ```
@@ -128,20 +119,21 @@ $ zenobia set [server-type] ([wildfly-swarm type]) [version]
 
 example.
 ```shellscript
-$ zenobia set wildfly-swarm web 2018.3.3
+$ zenobia set tomcat 9.0.34
 
 $ zenobia set payara-micro 5.181
 ```
 
 show current version.
 ```shellscript
-$ zenobia current [server-type] ([wildfly-swarm type])
+$ zenobia current [server-type]
 ```
 
 example.
 ```shellscript
-$ zenobia current wildfly-swarm web
-[2018-03-24 15:08:42] [INFO] [wildfly-swarm] current web version 2018.3.3
+$ zenobia current tomcat
+[2020-04-16 23:39:24] [INFO] [tomcat] current tomcat 9 version 9.0.34
+
 
 $ zenobia current payara-micro
 [2018-03-24 15:08:35] [INFO] [payara-micro] current version 5.181
@@ -149,25 +141,15 @@ $ zenobia current payara-micro
 
 list local installed versions.
 ```shellscript
-$ zenobia list [server-type] ([wildfly-swarm type])
+$ zenobia list [server-type]
 ```
 
 example.
 ```shellscript
-$ zenobia list wildfly-swarm
-[2018-03-24 15:03:41] [INFO] [wildfly-swarm] local installed wildfly-swarm uberjars
-  type: microprofile
-    2018.3.3 [current]
-    2018.3.2
-  type: web
-    2018.3.3 [current]
-    2018.3.2
-
-$ zenobia list wildfly-swarm web
-[2018-03-24 15:03:44] [INFO] [wildfly-swarm] local installed wildfly-swarm web uberjars
-  type: web
-    2018.3.3 [current]
-    2018.3.2
+$ zenobia list tomcat
+[2020-04-16 23:40:52] [INFO] [tomcat] local installed tomcat 9 jars
+  9.0.34 [current]
+  9.0.30
 
 $ zenobia list payara-micro
 [2018-03-24 15:03:48] [INFO] [payara-micro] local installed payara-micro jars
@@ -177,38 +159,84 @@ $ zenobia list payara-micro
 
 list maven central registered versions.
 ```shellscript
-$ zenobia list-remote [server-type] ([wildfly-swarm type])
+$ zenobia list-remote [server-type]
 ```
 
 example.
 ```shellscript
-$ zenobia list-remote wildfly-swarm
-[2018-03-24 15:49:56] [INFO] [wildfly-swarm] Maven Central registerd wildfly-swarm uberjars
-  type: microprofile
-    2017.10.2
-    2017.12.0
-    2017.12.1
-    2018.1.0
-    2018.2.0
-    2018.2.0.Final
-    2018.3.0
-    2018.3.1
-    2018.3.2
-    2018.3.3 [current]
-  type: web
-    2018.3.0
-    2018.3.1
-    2018.3.2
-    2018.3.3 [current]
-  ...
+$ zenobia list-remote tomcat
+[2020-04-16 23:41:25] [INFO] [tomcat] Maven Central registered tomcat 9 jars
+  9.0.1
+  9.0.10
+  9.0.11
+  9.0.12
+  9.0.13
+  9.0.14
+  9.0.16
+  9.0.17
+  9.0.19
+  9.0.2
+  9.0.20
+  9.0.21
+  9.0.22
+  9.0.24
+  9.0.26
+  9.0.27
+  9.0.29
+  9.0.30
+  9.0.31
+  9.0.33
+  9.0.34 [current]
+  9.0.4
+  9.0.5
+  9.0.6
+  9.0.7
+  9.0.8
+[2020-04-16 23:41:25] [INFO] [tomcat] Maven Central registered tomcat 8.5 jars
+  8.5.0
+  8.5.11
+  8.5.12
+  8.5.13
+  8.5.14
+  8.5.15
+  8.5.16
+  8.5.19
+  8.5.2
+  8.5.20
+  8.5.21
+  8.5.23
+  8.5.24
+  8.5.27
+  8.5.28
+  8.5.29
+  8.5.3
+  8.5.30
+  8.5.31
+  8.5.32
+  8.5.33
+  8.5.34
+  8.5.35
+  8.5.37
+  8.5.38
+  8.5.39
+  8.5.4
+  8.5.40
+  8.5.41
+  8.5.42
+  8.5.43
+  8.5.45
+  8.5.46
+  8.5.47
+  8.5.49
+  8.5.5
+  8.5.50
+  8.5.51
+  8.5.53
+  8.5.54
+  8.5.6
+  8.5.8
+  8.5.9
 
-$ zenobia list-remote wildfly-swarm web
-[2018-03-24 15:50:42] [INFO] [wildfly-swarm] Maven Central registerd wildfly-swarm web uberjars
-  type: web
-    2018.3.0
-    2018.3.1
-    2018.3.2
-    2018.3.3 [current]
 
 $ zenobia list-remote payara-micro
 [2018-03-24 15:51:15] [INFO] [payara-micro] Maven Central registered payara-micro jars
@@ -220,18 +248,6 @@ $ zenobia list-remote payara-micro
 ```
 
 ### Executable
-WildFly Swarm Hollow Uberjar.
-```shellscript
-$ web-hollowswarm [war-file path]
-
-$ microprofile-hollowswarm
-```
-
-Payara Micro.
-```shellscript
-$ payara-micro --deploy [war-file path]
-```
-
 Apache Tomcat 9.
 ```shellscript
 $ tomcat9 --deploy [war-file path or deploy directory]
@@ -241,6 +257,12 @@ Apache Tomcat 8.5.
 ```shellscript
 $ tomcat85 --deploy [war-file path or deploy directory]
 ```
+
+Payara Micro.
+```shellscript
+$ payara-micro --deploy [war-file path]
+```
+
 
 *Note: when running with Cygwin, it has a .bat extension (e.g. `tomcat9.bat`)
 
@@ -263,5 +285,5 @@ and, removing the initialisation snippet from your `.bashrc`, `.bash_profile` an
 ## Development Mode
 To operate Zenobia as a development mode, set the environment variable `ZENOBIA_DEVELOPMENT=1`.
 ```shellscript
-$ ZENOBIA_DEVELOPMENT=1 bin/zenobia install wildfly-swarm microprofile
+$ ZENOBIA_DEVELOPMENT=1 bin/zenobia install tomcat
 ```
